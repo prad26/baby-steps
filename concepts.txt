@@ -1,0 +1,15 @@
+S1: Pick the right colored ingredients and choose between good and bad ingredients
+S2: Pick the right number of ingredients
+S3: Divide the ingredients into some baskets
+
+Explanation:
+
+Intro: Tell about what we're gonna make. Explain what ingredients are what Kid 
+
+Scene 1: Supermarket
+S1: Fruits to be chosen from the fruit stand. Pick the right colored ingredients and choose between good and bad ingredients. 
+    Subtract the bad ones from total.
+
+S2: Remove the bad ones and keep only essential ingredients. Pick the right number of ingredients
+S3: Add all ingredients in basket and make smoothie 
+S4: Divide smoothie to your friends
