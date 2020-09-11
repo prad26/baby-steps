@@ -1,0 +1,25 @@
+App Flow:
+
+App starts with the splash screen followed by the welcome screen
+On clicking the arrow button, the user is taken into the App
+
+Once the user enters the app, he/she is greeted and told about the recipe for the day.
+Next up, the user is introduced to all the ingredients required for the recipe and teach him/her what the ingredient is and what colour and shape it is.
+
+Once the ingredients are shown to the user, he/she is supposed to pick the right ingredients from the different racks in the store. He/she picks the required items 
+and puts it into a basket.
+
+The user gives the number of glasses of smoothie he/she wants to make.
+
+
+Now, since all the ingredients are in the basket, the correct number of each ingredient is picked by the user as per the instructions given and is put into the blender. 
+
+The animation of blending is shown and the next scene is to show the smoothie that's ready to be served.
+
+Once the smoothie is ready, the smoothie is equally dished out into the number of glasses mentioned by the user earlier
+
+Once this is done, the user is greeted for successfully completing the recipies
+
+
+
+
