@@ -13,6 +13,9 @@ public class ParameterManager : MonoBehaviour
     public Camera arCamera = default;
     public TextMeshPro storeText;
     public TextMeshPro testText;
+    public GameObject basketModel;
+    public List<GameObject> basketFruits;
+    public List<Material> basketFruitMaterials;
  
     private Vector2 touchPosition = default;
     private Material material;
@@ -31,6 +34,15 @@ public class ParameterManager : MonoBehaviour
         disableAllFruits();
 
         storeText.text = "";
+        foreach (var item in basketFruits)
+        {
+            item.SetActive(false);
+        }
+
+        foreach (var item in basketFruitMaterials)
+        {
+            item.SetFloat("Vector1_FEFF47F1", 0.0f);
+        }
     }
 
     public void welcomeButtonOnClick()
@@ -111,11 +123,11 @@ public class ParameterManager : MonoBehaviour
                 appleCounter++;
                 if(appleCounter > 2)
                 {
-                    // call shaky shader
+                    shakeME();
                 }
                 else
                 {
-                    StartCoroutine(DissolveAnim(hitObject));
+                    StartCoroutine(DissolveAnim(hitObject.transform.gameObject));
                     setStoreText();
                 }
                 break;
@@ -124,11 +136,11 @@ public class ParameterManager : MonoBehaviour
                 bananaCounter++;
                 if(bananaCounter > 4)
                 {
-                    // call shaky shader
+                    shakeME();
                 }
                 else
                 {
-                    StartCoroutine(DissolveAnim(hitObject));
+                    StartCoroutine(DissolveAnim(hitObject.transform.gameObject));
                     setStoreText();
                 }
                 break;
@@ -137,11 +149,11 @@ public class ParameterManager : MonoBehaviour
                 orangeCounter++;
                 if(orangeCounter > 3)
                 {
-                    // call shaky shader
+                    shakeME();
                 }
                 else
                 {
-                    StartCoroutine(DissolveAnim(hitObject));
+                    StartCoroutine(DissolveAnim(hitObject.transform.gameObject));
                     setStoreText();
                 }
                 break;
@@ -150,11 +162,11 @@ public class ParameterManager : MonoBehaviour
                 milkCounter++;
                 if(milkCounter > 2)
                 {
-                    // call shaky shader
+                    shakeME();
                 }
                 else
                 {
-                    StartCoroutine(DissolveAnim(hitObject));
+                    StartCoroutine(DissolveAnim(hitObject.transform.gameObject));
                     setStoreText();
                 }
                 break;
@@ -164,15 +176,43 @@ public class ParameterManager : MonoBehaviour
                 break;
             
             case "Next":
-                if(p == 3)
+                if( p == 3 )
                     p = 0;
                 pickFruit(p);
+                p++;
+                break;
+
+            case "basket":
+                if( p == 4 )
+                    break;
+                sendToBlender(p);
                 p++;
                 break;
 
             default:
                 break;
         }
+    }
+
+    void shakeME()
+    {
+        material.SetInt("Boolean_33A9C5F7",1);
+        StartCoroutine(WaitFor());
+        material.SetInt("Boolean_33A9C5F7",0);
+    }
+
+    void sendToBlender(int p)
+    {
+        material = basketFruitMaterials[p];
+        StartCoroutine(DissolveAnim());
+
+        if( p == 3)
+            startBlender();
+    }
+
+    void startBlender()
+    {
+
     }
 
     void setStoreText()
@@ -191,7 +231,24 @@ public class ParameterManager : MonoBehaviour
         if(milk < 0)
             milk = 0;
 
-        storeText.text = "PLEASE PICK : \nAPPLE: " + apple + "         ORANGE: " + orange + " \nBANANA: " + banana + "     MILK: "+ milk;
+        storeText.text = "PLEASE PICK INGREDIENTS: \nAPPLE: " + apple + "         ORANGE: " + orange + " \nBANANA: " + banana + "     MILK: "+ milk;
+
+        if( apple == 0 && orange == 0 && banana == 0 && milk == 0)
+            blenderReady();
+    }
+
+    void blenderReady()
+    {
+        basketModel.SetActive(true);
+        storeText.text = "";
+
+        foreach (var item in basketFruits)
+        {
+            item.SetActive(true);
+        }
+
+        p = 0;
+
     }
 
     void disableIngreScene()
@@ -203,7 +260,7 @@ public class ParameterManager : MonoBehaviour
         setStoreText();
     }
 
-    IEnumerator DissolveAnim(RaycastHit hitObject) 
+    IEnumerator DissolveAnim(GameObject hitObject = null) 
     {
         material.SetFloat("Vector1_FEFF47F1", 0.0f);
         for(float t = 0; t <= 1; t += Time.deltaTime)
@@ -215,6 +272,19 @@ public class ParameterManager : MonoBehaviour
         }
         material.SetFloat("Vector1_FEFF47F1", 1.0f);
 
-        hitObject.transform.gameObject.SetActive(false);
+        if(hitObject != null)
+            hitObject.SetActive(false);
+    }
+
+    IEnumerator WaitFor(int sec = 5)
+    {
+        //Print the time of when the function is first called.
+        Debug.Log("Started Coroutine at timestamp : " + Time.time);
+
+        //yield on a new YieldInstruction that waits for 5 seconds.
+        yield return new WaitForSeconds(sec);
+
+        //After we have waited 5 seconds print the time again.
+        Debug.Log("Finished Coroutine at timestamp : " + Time.time);
     }
 }
