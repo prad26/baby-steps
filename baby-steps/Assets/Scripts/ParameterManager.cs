@@ -16,6 +16,8 @@ public class ParameterManager : MonoBehaviour
     public GameObject basketModel;
     public List<GameObject> basketFruits;
     public List<Material> basketFruitMaterials;
+    public AudioSource audioSource;
+    public List<AudioClip> audioClips;
  
     private Vector2 touchPosition = default;
     private Material material;
@@ -78,14 +80,22 @@ public class ParameterManager : MonoBehaviour
         {
             case 0:
                 fruitText.text = "A - APPLE";
+                playMe(audioClips[1]);
                 break;
 
             case 1:
                 fruitText.text = "B - BANANA";
+                playMe(audioClips[3]);
                 break;
 
             case 2:
                 fruitText.text = "O - ORANGE";
+                playMe(audioClips[2]);
+                break;
+            
+            case 3:
+                fruitText.text = "M - MILK";
+                playMe(audioClips[4]);
                 break;
             
             default:
@@ -95,6 +105,10 @@ public class ParameterManager : MonoBehaviour
 
     void Update()
     {
+
+        if(models[0].activeInHierarchy)
+            playMe(audioClips[0]);
+
         if(Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -176,7 +190,7 @@ public class ParameterManager : MonoBehaviour
                 break;
             
             case "Next":
-                if( p == 3 )
+                if( p == 4 )
                     p = 0;
                 pickFruit(p);
                 p++;
@@ -189,9 +203,20 @@ public class ParameterManager : MonoBehaviour
                 p++;
                 break;
 
+            case "blender":
+                blenderReady();
+                break;
+
             default:
                 break;
         }
+    }
+
+    void blenderReady()
+    {
+        playMe(audioClips[12]);
+
+        // do skaky blender
     }
 
     void shakeME()
@@ -207,12 +232,7 @@ public class ParameterManager : MonoBehaviour
         StartCoroutine(DissolveAnim());
 
         if( p == 3)
-            startBlender();
-    }
-
-    void startBlender()
-    {
-
+            playMe(audioClips[11]);
     }
 
     void setStoreText()
@@ -234,10 +254,10 @@ public class ParameterManager : MonoBehaviour
         storeText.text = "PLEASE PICK INGREDIENTS: \nAPPLE: " + apple + "         ORANGE: " + orange + " \nBANANA: " + banana + "     MILK: "+ milk;
 
         if( apple == 0 && orange == 0 && banana == 0 && milk == 0)
-            blenderReady();
+            fruitsReady();
     }
 
-    void blenderReady()
+    void fruitsReady()
     {
         basketModel.SetActive(true);
         storeText.text = "";
@@ -246,6 +266,8 @@ public class ParameterManager : MonoBehaviour
         {
             item.SetActive(true);
         }
+
+        playMe(audioClips[8]);
 
         p = 0;
 
@@ -258,6 +280,14 @@ public class ParameterManager : MonoBehaviour
 
         models[2].SetActive(true);
         setStoreText();
+
+        playMe(audioClips[5]);
+    }
+
+    void playMe(AudioClip clip)
+    {
+        audioSource.clip = clip;
+        audioSource.Play();
     }
 
     IEnumerator DissolveAnim(GameObject hitObject = null) 
