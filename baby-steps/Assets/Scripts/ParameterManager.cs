@@ -18,6 +18,7 @@ public class ParameterManager : MonoBehaviour
     public List<Material> basketFruitMaterials;
     public AudioSource audioSource;
     public List<AudioClip> audioClips;
+    public List<Material> blenderMaterials;
  
     private Vector2 touchPosition = default;
     private Material material;
@@ -45,12 +46,15 @@ public class ParameterManager : MonoBehaviour
         {
             item.SetFloat("Vector1_FEFF47F1", 0.0f);
         }
+
+        setBlenderVibrate(0);
     }
 
     public void welcomeButtonOnClick()
     {
         homeParameterCanvas.SetActive(false);
         //fruitPickerCanvas.SetActive(true);
+        playMe(audioClips[0]);
     }
 
     void disableAllFruits()
@@ -105,10 +109,6 @@ public class ParameterManager : MonoBehaviour
 
     void Update()
     {
-
-        if(models[0].activeInHierarchy)
-            playMe(audioClips[0]);
-
         if(Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -212,17 +212,31 @@ public class ParameterManager : MonoBehaviour
         }
     }
 
-    void blenderReady()
+    void setBlenderVibrate(int v)
+    {
+        foreach (var item in blenderMaterials)
+        {
+            item.SetInt("Boolean_33DD99D2",v);
+        }
+    }
+
+    public void blenderReady()
     {
         playMe(audioClips[12]);
+        StartCoroutine(WaitForBlender(6));
+    }
 
-        // do skaky blender
+    void smoothieReady()
+    {
+        playMe(audioClips[13]);
+
+        // enable main smooothi bside belnder with dissolve
     }
 
     void shakeME()
     {
         material.SetInt("Boolean_33A9C5F7",1);
-        StartCoroutine(WaitFor());
+        //StartCoroutine(WaitFor());
         material.SetInt("Boolean_33A9C5F7",0);
     }
 
@@ -306,15 +320,11 @@ public class ParameterManager : MonoBehaviour
             hitObject.SetActive(false);
     }
 
-    IEnumerator WaitFor(int sec = 5)
+    IEnumerator WaitForBlender(int sec = 5)
     {
-        //Print the time of when the function is first called.
-        Debug.Log("Started Coroutine at timestamp : " + Time.time);
-
-        //yield on a new YieldInstruction that waits for 5 seconds.
+        setBlenderVibrate(1);
         yield return new WaitForSeconds(sec);
-
-        //After we have waited 5 seconds print the time again.
-        Debug.Log("Finished Coroutine at timestamp : " + Time.time);
+        setBlenderVibrate(0);
+        smoothieReady();
     }
 }
