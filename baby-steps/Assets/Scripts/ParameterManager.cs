@@ -19,6 +19,8 @@ public class ParameterManager : MonoBehaviour
     public AudioSource audioSource;
     public List<AudioClip> audioClips;
     public List<Material> blenderMaterials;
+    public GameObject smoothieModel;
+    public Material smoothieMaterial;
  
     private Vector2 touchPosition = default;
     private Material material;
@@ -48,6 +50,7 @@ public class ParameterManager : MonoBehaviour
         }
 
         setBlenderVibrate(0);
+        smoothieModel.SetActive(false);
     }
 
     public void welcomeButtonOnClick()
@@ -220,15 +223,20 @@ public class ParameterManager : MonoBehaviour
         }
     }
 
-    public void blenderReady()
+    void blenderReady()
     {
         playMe(audioClips[12]);
+        setBlenderVibrate(1);
         StartCoroutine(WaitForBlender(6));
     }
 
-    void smoothieReady()
+    public void smoothieReady()
     {
         playMe(audioClips[13]);
+        basketModel.SetActive(false);
+        smoothieModel.SetActive(true);
+        material = smoothieMaterial;
+        StartCoroutine(SmoothieME());
 
         // enable main smooothi bside belnder with dissolve
     }
@@ -304,6 +312,19 @@ public class ParameterManager : MonoBehaviour
         audioSource.Play();
     }
 
+    IEnumerator SmoothieME() 
+    {
+        material.SetFloat("Vector1_FEFF47F1", 1.0f);
+        for(float t = 1; t >= 0; t -= Time.deltaTime)
+        {
+            yield return null; // wait 1 frame
+
+            // here is where the weird generated property name goes
+            material.SetFloat("Vector1_FEFF47F1", t);
+        }
+        material.SetFloat("Vector1_FEFF47F1", 0.0f);
+    }
+
     IEnumerator DissolveAnim(GameObject hitObject = null) 
     {
         material.SetFloat("Vector1_FEFF47F1", 0.0f);
@@ -322,7 +343,6 @@ public class ParameterManager : MonoBehaviour
 
     IEnumerator WaitForBlender(int sec = 5)
     {
-        setBlenderVibrate(1);
         yield return new WaitForSeconds(sec);
         setBlenderVibrate(0);
         smoothieReady();
