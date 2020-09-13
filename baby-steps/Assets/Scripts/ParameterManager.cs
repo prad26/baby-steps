@@ -232,6 +232,10 @@ public class ParameterManager : MonoBehaviour
     void blenderReady()
     {
         playMe(audioClips[12]);
+        foreach (var item in basketFruits)
+        {
+            item.SetActive(false);
+        }
         setBlenderVibrate(1);
         storeText.text = "PREPARING YOUR SMOOTHIE!!!";
         StartCoroutine(WaitForBlender(6));
@@ -299,7 +303,7 @@ public class ParameterManager : MonoBehaviour
     void fruitsReady()
     {
         basketModel.SetActive(true);
-        storeText.text = "";
+        storeText.text = "TAP THE BASKET TO ADD FRUITS TO BLENDER";
 
         foreach (var item in basketFruits)
         {
