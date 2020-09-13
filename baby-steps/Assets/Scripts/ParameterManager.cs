@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class ParameterManager : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class ParameterManager : MonoBehaviour
     public List<Material> blenderMaterials;
     public GameObject smoothieModel;
     public Material smoothieMaterial;
+    public List<PlayableDirector> basketFruitsTimelines;
+    public PlayableDirector smoothieTimeline;
  
     private Vector2 touchPosition = default;
     private Material material;
@@ -230,13 +233,15 @@ public class ParameterManager : MonoBehaviour
         StartCoroutine(WaitForBlender(6));
     }
 
-    public void smoothieReady()
+    void smoothieReady()
     {
         playMe(audioClips[13]);
         basketModel.SetActive(false);
         smoothieModel.SetActive(true);
-        material = smoothieMaterial;
-        StartCoroutine(SmoothieME());
+
+        smoothieTimeline.Play();
+        //material = smoothieMaterial;
+        //StartCoroutine(SmoothieME());
 
         // enable main smooothi bside belnder with dissolve
     }
@@ -244,14 +249,15 @@ public class ParameterManager : MonoBehaviour
     void shakeME()
     {
         material.SetInt("Boolean_33A9C5F7",1);
-        //StartCoroutine(WaitFor());
-        material.SetInt("Boolean_33A9C5F7",0);
+        StartCoroutine(ShakeThatFruit());
     }
 
     void sendToBlender(int p)
     {
-        material = basketFruitMaterials[p];
-        StartCoroutine(DissolveAnim());
+
+        basketFruitsTimelines[p].Play();
+        //material = basketFruitMaterials[p];
+        //StartCoroutine(DissolveAnim());
 
         if( p == 3)
             playMe(audioClips[11]);
@@ -346,5 +352,11 @@ public class ParameterManager : MonoBehaviour
         yield return new WaitForSeconds(sec);
         setBlenderVibrate(0);
         smoothieReady();
+    }
+
+    IEnumerator ShakeThatFruit(int sec = 2)
+    {
+        yield return new WaitForSeconds(sec);
+        material.SetInt("Boolean_33A9C5F7",0);
     }
 }
