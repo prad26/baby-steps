@@ -24,6 +24,7 @@ public class ParameterManager : MonoBehaviour
     public Material smoothieMaterial;
     public List<PlayableDirector> basketFruitsTimelines;
     public PlayableDirector smoothieTimeline;
+    public Window_Confetti confettiCelebrations;
  
     private Vector2 touchPosition = default;
     private Material material;
@@ -54,6 +55,7 @@ public class ParameterManager : MonoBehaviour
 
         setBlenderVibrate(0);
         smoothieModel.SetActive(false);
+        confettiCelebrations.checker = 0;
     }
 
     public void welcomeButtonOnClick()
@@ -205,6 +207,7 @@ public class ParameterManager : MonoBehaviour
             case "basket":
                 if( p == 4 )
                     break;
+                storeText.text = "TAP ON THE BASKET";
                 sendToBlender(p);
                 p++;
                 break;
@@ -230,16 +233,21 @@ public class ParameterManager : MonoBehaviour
     {
         playMe(audioClips[12]);
         setBlenderVibrate(1);
+        storeText.text = "PREPARING YOUR SMOOTHIE!!!";
         StartCoroutine(WaitForBlender(6));
+
     }
 
     void smoothieReady()
     {
+        storeText.text = "YOUR SMOOTHIE IS READY!! \nCONGRATULATIONS";
         playMe(audioClips[13]);
         basketModel.SetActive(false);
         smoothieModel.SetActive(true);
 
         smoothieTimeline.Play();
+
+        confettiCelebrations.checker = 1;
         //material = smoothieMaterial;
         //StartCoroutine(SmoothieME());
 
@@ -260,7 +268,10 @@ public class ParameterManager : MonoBehaviour
         //StartCoroutine(DissolveAnim());
 
         if( p == 3)
+        {
             playMe(audioClips[11]);
+            storeText.text = "TAP ON THE BLENDER";
+        }
     }
 
     void setStoreText()
