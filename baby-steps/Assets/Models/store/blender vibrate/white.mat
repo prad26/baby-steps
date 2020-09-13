@@ -21,7 +21,11 @@ Material:
     m_TexEnvs: []
     m_Floats:
     - Boolean_33DD99D2: 0
+    - Boolean_E96899F: 0
     - Vector1_3DA498DF: 20
+    - Vector1_50C89902: 6
+    - Vector1_D56F5B86: 3
     m_Colors:
+    - Color_37FFF27D: {r: 2, g: 1.047121, b: 0.2198953, a: 0}
     - Color_56215D10: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []

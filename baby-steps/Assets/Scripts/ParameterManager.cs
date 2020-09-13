@@ -25,6 +25,7 @@ public class ParameterManager : MonoBehaviour
     public List<PlayableDirector> basketFruitsTimelines;
     public PlayableDirector smoothieTimeline;
     public Window_Confetti confettiCelebrations;
+    public Material basketMaterial;
  
     private Vector2 touchPosition = default;
     private Material material;
@@ -221,22 +222,34 @@ public class ParameterManager : MonoBehaviour
         }
     }
 
-    void setBlenderVibrate(int v)
+    public void setBlenderVibrate(int v)
     {
         foreach (var item in blenderMaterials)
         {
             item.SetInt("Boolean_33DD99D2",v);
         }
+
+
     }
 
     void blenderReady()
     {
         playMe(audioClips[12]);
+
+        foreach (var item in blenderMaterials)
+        {
+            item.SetInt("Boolean_E96899F",1);
+        }
+        
         foreach (var item in basketFruits)
         {
             item.SetActive(false);
         }
         setBlenderVibrate(1);
+        foreach (var item in blenderMaterials)
+            {
+                item.SetInt("Boolean_E96899F",0);
+            }
         storeText.text = "PREPARING YOUR SMOOTHIE!!!";
         StartCoroutine(WaitForBlender(6));
 
@@ -275,6 +288,12 @@ public class ParameterManager : MonoBehaviour
         {
             playMe(audioClips[11]);
             storeText.text = "TAP ON THE BLENDER";
+            basketMaterial.SetInt("Boolean_E96899F",0);
+            //basketModel.SetActive(false);
+            foreach (var item in blenderMaterials)
+            {
+                item.SetInt("Boolean_E96899F",1);
+            }
         }
     }
 
@@ -300,10 +319,19 @@ public class ParameterManager : MonoBehaviour
             fruitsReady();
     }
 
+    bool calledme = false;
+
     void fruitsReady()
     {
+
         basketModel.SetActive(true);
         storeText.text = "TAP THE BASKET TO ADD FRUITS TO BLENDER";
+
+        if( calledme == false)
+        {
+            //basketMaterial.SetInt("Boolean_E96899F",1);
+            calledme = true;
+        }
 
         foreach (var item in basketFruits)
         {

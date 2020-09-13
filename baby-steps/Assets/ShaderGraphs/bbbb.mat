@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: crome
+  m_Name: bbbb
   m_Shader: {fileID: -6465566751694194690, guid: ec1f6e9f6abf07342878db6348895dc0, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -27,5 +27,5 @@ Material:
     - Vector1_D56F5B86: 3
     m_Colors:
     - Color_37FFF27D: {r: 2, g: 1.047121, b: 0.2198953, a: 0}
-    - Color_56215D10: {r: 0.84705883, g: 0.84705883, b: 0.84705883, a: 0}
+    - Color_56215D10: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
