@@ -1,5 +1,11 @@
 # Baby Steps
 
+## Video Demo
+
+Please click on the below image to view the video.
+
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/v-UHV8u6bvI/0.jpg)](http://www.youtube.com/watch?v=v-UHV8u6bvI "Baby Steps | Bon Hackétit")
+
 ## Inspiration
 
 COVID-19 has made it hard for kids around the world as schools have shut down. We wanted to build an app to simplify learning for kids that's built like a game. While in school, kids learn math and science through real objects and materials. We wanted to enable the same experience at home and the first thing that struck our minds was AR. We also wanted to make the whole experience fun and interactive, so we turned them into little chefs for this one!
